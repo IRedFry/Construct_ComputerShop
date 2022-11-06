@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Construct_Main.Components.ProductControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Construct_Main.Components" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" Name="Product">
+    <Border CornerRadius="5" Background="White" BorderBrush="Gray" BorderThickness="1" Margin="10" Width="530">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Image Height="60" Width="auto" Source="../Sources/lg1.png" HorizontalAlignment="Left" />
+                
+            
+            <TextBlock Height="auto" Width="auto" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" FontSize="30">
+                Монитор LG
+            </TextBlock>
+
+            <TextBlock Height="auto" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right" FontSize="30" Cursor="Hand">
+                15.000 Р
+            </TextBlock>
+
+            <Button Grid.Column="3" Cursor="Hand" Width="60" Height="30" BorderBrush="Black"
+                    Style="{StaticResource MaterialDesignFlatAccentBgButton}" Foreground="Black" Background="{StaticResource PrimaryHueLightBrush}">
+                Add
+            </Button>
+        </Grid>
+
+    </Border>
+</UserControl>
