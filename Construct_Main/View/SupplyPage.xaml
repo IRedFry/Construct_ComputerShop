@@ -30,7 +30,7 @@
                 <ItemsControl ItemsSource="{Binding SupplyLines}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <components:ProductBusketControl Background="Transparent"/>
+                            <components:SupplyProductControl Background="Transparent"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -56,7 +56,7 @@
         <Border Grid.Row="1" Grid.Column="1" CornerRadius="10" Background="White" Margin="10" Width="auto">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" Width="auto">
                 <TextBlock HorizontalAlignment="Center" FontSize="25"> Поставка</TextBlock>
-                <ComboBox ItemsSource="{Binding Suppliers}" Margin="10"/>
+                <ComboBox x:Name="Supplier" FontSize="18" ItemsSource="{Binding Suppliers}" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="10"/>
                 <TextBlock HorizontalAlignment="Left" FontSize="15" Margin="10"> Итого</TextBlock>
                 <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="10" FontWeight="Bold" Text="{Binding PriceText}"></TextBlock>
                 <StackPanel Orientation="Horizontal" Height="auto">
@@ -64,7 +64,8 @@
                     <TextBlock HorizontalAlignment="Right" FontSize="15" Margin="10"></TextBlock>
                 </StackPanel>
                 <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
-                        Command="{Binding MakeOrderCommand}"
+                        Command="{Binding MakeSupplyCommand}"
+                        CommandParameter="{Binding Path=SelectedValue, ElementName=Supplier}"
                         Width="auto"
                         Margin="10" VerticalAlignment="Bottom" materialDesign:ButtonAssist.CornerRadius="5" Cursor="Hand">
                     Оформить поставку

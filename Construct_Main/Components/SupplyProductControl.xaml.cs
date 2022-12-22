@@ -24,5 +24,6 @@ namespace Construct_Main.Components
         {
             InitializeComponent();
         }
+
     }
 }

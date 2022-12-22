@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,11 @@ namespace Construct_Main.View
     public partial class SupplyPage : Page
     {
         private ViewModel.SupplyViewModel VM;
-        public SupplyPage()
+        public SupplyPage(IDbCrud dbCrud, ISupplyService supplyService)
         {
-            InitializeComponent();
-            VM = new ViewModel.SupplyViewModel();
+            VM = new ViewModel.SupplyViewModel(dbCrud, supplyService);
             DataContext = VM;
+            InitializeComponent();
         }
     }
 }

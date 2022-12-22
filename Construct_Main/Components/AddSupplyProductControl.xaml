@@ -14,7 +14,7 @@
     </UserControl.Resources>
 
     
-    <Border CornerRadius="5" Background="White" BorderBrush="Gray" BorderThickness="1" Margin="10" Width="auto">
+    <Border CornerRadius="5" Background="White" BorderBrush="Gray" BorderThickness="1" Margin="70,10,10,10" Width="auto">
         <Grid>
 
             <TextBlock x:Name="Id" Visibility="Collapsed" Text="{Binding Id}"/>
@@ -35,8 +35,7 @@
 
                 <Button x:Name="Exist" HorizontalAlignment="Right" Width="auto" Margin="10" Cursor="Hand"
                             Style="{DynamicResource MaterialDesignFlatDarkButton}"
-                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.ChangeSupplyTypeCommand}"
-                            >
+                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.ChangeSupplyTypeCommand}">
                     <Button.CommandParameter>
                         <MultiBinding Converter="{StaticResource MyConverter}">
                             <Binding Path="Text" ElementName="Id"/>
@@ -51,46 +50,85 @@
                 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontSize="20" Margin="10">Название: </TextBlock>
-                    <TextBox FontSize="20" Margin="10" MaxLength="18" MinWidth="20"></TextBox>
+                    <TextBox Name="Name" FontSize="20" Margin="10" MaxLength="18" MinWidth="20"></TextBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontSize="20" Margin="10">Категория:</TextBlock>
-                    <ComboBox FontSize="20" Margin="10"></ComboBox>
+                    <ComboBox Name="Catetory"  DisplayMemberPath="Name" SelectedValuePath="Id"
+                              ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.Categories}"
+                              FontSize="20" Margin="10"></ComboBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontSize="20" Margin="10">Производитель:</TextBlock>
-                    <ComboBox FontSize="20" Margin="10"></ComboBox>
+                    <ComboBox Name="Manufacturer"
+                              DisplayMemberPath="Name" SelectedValuePath="Id"
+                              ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.Manufacturers}"
+                              FontSize="20" Margin="10"></ComboBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontSize="20" Margin="10">Цена:</TextBlock>
-                    <local:NumberBox FontSize="20" Margin="10" MinWidth="20"></local:NumberBox>
+                    <local:NumberBox x:Name="Price" FontSize="20" Margin="10" MinWidth="20"></local:NumberBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontSize="20" Margin="10">Описание:</TextBlock>
-                    <TextBox FontSize="20" Margin="10" MaxLength="200" MinWidth="20"></TextBox>
+                    <TextBox Name="Description" FontSize="20" Margin="10" MaxLength="200" MinWidth="20"></TextBox>
                 </StackPanel>
 
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" Margin="10">Количество:</TextBlock>
+                    <local:NumberBox x:Name="Count" FontSize="20" Margin="10" MinWidth="20"></local:NumberBox>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" Margin="10">Цена за поставку (шт.):</TextBlock>
+                    <local:NumberBox x:Name="SupplyPrice" FontSize="20" Margin="10" MinWidth="20"></local:NumberBox>
+                </StackPanel>
+                
                 <Button
                     Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
                     HorizontalAlignment="Right"
-                    Margin="10">
-                    <materialDesign:PackIcon Kind="Success"></materialDesign:PackIcon
->
+                    Margin="10"
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.AddNewProductCommand}">
+                    <materialDesign:PackIcon Kind="Success"></materialDesign:PackIcon>
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MyConverter}">
+                            <Binding Path="Text" ElementName="Id"/>
+                            <Binding Path="Text" ElementName="Name"/>
+                            <Binding Path="SelectedValue" ElementName="Catetory"/>
+                            <Binding Path="SelectedValue" ElementName="Manufacturer"/>
+                            <Binding Path="Number" ElementName="Price"/>
+                            <Binding Path="Text" ElementName="Description"/>
+                            <Binding Path="Number" ElementName="Count"/>
+                            <Binding Path="Number" ElementName="SupplyPrice"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
                 </Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Height="auto" Visibility="{Binding ExistProduct, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <TextBlock FontSize="20" Margin="10">Товар: </TextBlock>
-                <ComboBox FontSize="20" Margin="10"></ComboBox>
+                <ComboBox Name="Product" FontSize="20" Margin="10" DisplayMemberPath="Name" SelectedValuePath="Id"
+                          ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.Products}"></ComboBox>
                 <TextBlock FontSize="20" Margin="10">Количество:</TextBlock>
-                <local:NumberBox MinWidth="20" FontSize="20" Margin="10"></local:NumberBox>
+                <local:NumberBox x:Name="Count2" MinWidth="20" FontSize="20" Margin="10"></local:NumberBox>
+                <TextBlock FontSize="20" Margin="10">Цена за поставку (шт.):</TextBlock>
+                <local:NumberBox x:Name="SupplyPrice2" MinWidth="20" FontSize="20" Margin="10"></local:NumberBox>
                 <Button
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.AddExistProductCommand}"
                     Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}">
                     <materialDesign:PackIcon Kind="Success"></materialDesign:PackIcon>
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MyConverter}">
+                            <Binding Path="Text" ElementName="Id"/>
+                            <Binding Path="SelectedValue" ElementName="Product"/>
+                            <Binding Path="Number" ElementName="Count2"/>
+                            <Binding Path="Number" ElementName="SupplyPrice2"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
                 </Button>
             </StackPanel>
         </Grid>

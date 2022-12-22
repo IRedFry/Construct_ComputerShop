@@ -13,6 +13,7 @@ namespace Construct_04
             Bind<IRecommendationService>().To<RecommendationService>();
             Bind<IAutorizationService>().To<AutorizationService>();
             Bind<IForecastService>().To<ForecastService>();
+            Bind<ISupplyService>().To<SupplyService>();
         }
     }
 }

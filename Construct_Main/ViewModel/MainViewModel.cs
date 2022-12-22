@@ -24,6 +24,7 @@ namespace Construct_Main.ViewModel
         private IRecommendationService recommendServ;
         private IAutorizationService authServ;
         private IForecastService foreServ;
+        private ISupplyService supplyService;
 
         private Frame MainFrame;
         private SideMenu SideMenuBar;
@@ -185,6 +186,7 @@ namespace Construct_Main.ViewModel
             recommendServ = kernel.Get<IRecommendationService>();
             authServ = kernel.Get<IAutorizationService>();
             foreServ = kernel.Get<IForecastService>();
+            supplyService = kernel.Get<ISupplyService>();
 
             Busket = crudServ.CreateBusket();
 
@@ -210,7 +212,7 @@ namespace Construct_Main.ViewModel
         }
         private void NavigatetoToSupplyPage()
         {
-            MainFrame.Navigate(new View.SupplyPage());
+            MainFrame.Navigate(new View.SupplyPage(crudServ, supplyService));
             SideMenuBar.CloseSide();
         }
 

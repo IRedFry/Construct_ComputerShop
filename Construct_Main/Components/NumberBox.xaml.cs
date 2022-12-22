@@ -38,7 +38,7 @@ namespace Construct_Main.Components
 
         static NumberBox()
         {
-            NumberPropery = DependencyProperty.Register("Number", typeof(decimal), typeof(NumberBox));
+            NumberPropery = DependencyProperty.Register("Number", typeof(decimal), typeof(UserControl), new FrameworkPropertyMetadata(null));
         }
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
