@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL;
+using Construct_Main.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,12 @@ namespace Construct_Main.View
     /// </summary>
     public partial class BusketPage : Page
     {
-        public BusketPage()
+        private BusketViewModel VM;
+        public BusketPage(IDbCrud db, IAutorizationService ass, List<ProductModel> pr, IOrderService orderService, OrderModel busket)
         {
             InitializeComponent();
+            VM = new BusketViewModel(db, ass, pr, orderService, busket);
+            DataContext = VM;
         }
     }
 }

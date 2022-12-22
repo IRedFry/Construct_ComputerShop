@@ -23,6 +23,7 @@ namespace Construct_Main.Components
         public ProductBusketControl()
         {
             InitializeComponent();
+            
         }
     }
 }

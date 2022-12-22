@@ -9,7 +9,10 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="OrderPage">
 
-
+    <Page.Resources>
+        <local:BoolToVisibility x:Key="BoolToVisibilityConverter"></local:BoolToVisibility>
+    </Page.Resources>
+    
     <Grid Background="{Binding Path=Background}" Margin="0,30,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -22,12 +25,33 @@
         <TextBlock Grid.Column="0" Grid.Row="0" FontSize="50" Margin="70,0,0,0">
             Заказы
         </TextBlock>
-        <ScrollViewer  Grid.Column="0" Grid.Row="1">
+
+        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.IsUnauth, Converter={StaticResource BoolToVisibilityConverter}}">
+            Войдите в систему
+        </TextBlock>
+        
+        <ScrollViewer  Grid.Column="0" Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.IsCustomer, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <components:OrderComponent Background="Transparent"></components:OrderComponent>
-                <components:OrderComponent Background="Transparent" Cursor="Hand"></components:OrderComponent>
+                <ItemsControl x:Name="items" ItemsSource="{Binding Orders}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <components:OrderComponent Background="Transparent"></components:OrderComponent>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </ScrollViewer>
-
+        
+        <ScrollViewer  Grid.Column="0" Grid.Row="1" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.IsSeller, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                <ItemsControl x:Name="itemsSeller" ItemsSource="{Binding Orders}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <components:OrderSellerComponent Background="Transparent" Cursor="Hand"></components:OrderSellerComponent>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

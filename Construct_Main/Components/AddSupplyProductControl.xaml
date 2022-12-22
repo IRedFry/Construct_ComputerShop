@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="Construct_Main.Components.AddSupplyProductControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Construct_Main.Components"
+             xmlns:view ="clr-namespace:Construct_Main.View"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" >
+
+    <UserControl.Resources>
+        <view:BoolToVisibility x:Key="BoolToVisibilityConverter"></view:BoolToVisibility>
+        <view:MyConverter x:Key="MyConverter"></view:MyConverter>
+    </UserControl.Resources>
+
+    
+    <Border CornerRadius="5" Background="White" BorderBrush="Gray" BorderThickness="1" Margin="10" Width="auto">
+        <Grid>
+
+            <TextBlock x:Name="Id" Visibility="Collapsed" Text="{Binding Id}"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="auto" Visibility="{Binding ChoiceProduct, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button x:Name="New" HorizontalAlignment="Left" Width="auto" Margin="10" Cursor="Hand"
+                            Style="{DynamicResource MaterialDesignFlatDarkButton}"
+                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.ChangeSupplyTypeCommand}"
+                            >
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MyConverter}">
+                            <Binding Path="Text" ElementName="Id"/>
+                            <Binding Path="Content" ElementName="New"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                    Новый товар
+                </Button>
+
+                <Button x:Name="Exist" HorizontalAlignment="Right" Width="auto" Margin="10" Cursor="Hand"
+                            Style="{DynamicResource MaterialDesignFlatDarkButton}"
+                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.ChangeSupplyTypeCommand}"
+                            >
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource MyConverter}">
+                            <Binding Path="Text" ElementName="Id"/>
+                            <Binding Path="Content" ElementName="Exist"/>
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                    Существующий товар
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Visibility="{Binding NewProduct, Converter={StaticResource BooleanToVisibilityConverter}}">
+                
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" Margin="10">Название: </TextBlock>
+                    <TextBox FontSize="20" Margin="10" MaxLength="18" MinWidth="20"></TextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" Margin="10">Категория:</TextBlock>
+                    <ComboBox FontSize="20" Margin="10"></ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" Margin="10">Производитель:</TextBlock>
+                    <ComboBox FontSize="20" Margin="10"></ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" Margin="10">Цена:</TextBlock>
+                    <local:NumberBox FontSize="20" Margin="10" MinWidth="20"></local:NumberBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="20" Margin="10">Описание:</TextBlock>
+                    <TextBox FontSize="20" Margin="10" MaxLength="200" MinWidth="20"></TextBox>
+                </StackPanel>
+
+                <Button
+                    Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
+                    HorizontalAlignment="Right"
+                    Margin="10">
+                    <materialDesign:PackIcon Kind="Success"></materialDesign:PackIcon
+>
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="auto" Visibility="{Binding ExistProduct, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock FontSize="20" Margin="10">Товар: </TextBlock>
+                <ComboBox FontSize="20" Margin="10"></ComboBox>
+                <TextBlock FontSize="20" Margin="10">Количество:</TextBlock>
+                <local:NumberBox MinWidth="20" FontSize="20" Margin="10"></local:NumberBox>
+                <Button
+                    Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}">
+                    <materialDesign:PackIcon Kind="Success"></materialDesign:PackIcon>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BLL;
+using Construct_Main.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,12 @@ namespace Construct_Main.View
     /// </summary>
     public partial class OrderPage : Page
     {
-        public OrderPage()
+        private OrderViewModel VM;
+        public OrderPage(IAutorizationService autorizationService,IOrderService orderService, IDbCrud dbCrud, List<ProductModel> productModels)
         {
             InitializeComponent();
+            VM = new OrderViewModel(autorizationService, orderService, dbCrud, productModels);
+            DataContext = VM;
         }
     }
 }

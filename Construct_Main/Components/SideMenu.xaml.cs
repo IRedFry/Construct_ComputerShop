@@ -36,8 +36,24 @@ namespace Construct_Main.Components
                     return BusketButton;
                 case "Orders":
                     return OrdersButton;
+                case "Auth":
+                        return AuthButton;
+                case "Recommendation":
+                    return ReccomendationButton;
+                case "Report":
+                    return ReportButton;
             }
             return null;
+        }
+
+        public void OpenSide()
+        {
+            ThicknessAnimation da = new ThicknessAnimation();
+            da.Duration = TimeSpan.FromSeconds(0.3);
+            da.EasingFunction = new SineEase { EasingMode = EasingMode.EaseOut };
+            da.To = new System.Windows.Thickness(0, 30, 0, 0);
+            BeginAnimation(MarginProperty, da);
+
         }
         public void CloseSide()
         {
@@ -46,10 +62,6 @@ namespace Construct_Main.Components
             da.EasingFunction = new SineEase { EasingMode = EasingMode.EaseOut };
             da.To = new System.Windows.Thickness(-260, 30, 0, 0);
             BeginAnimation(MarginProperty, da);
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            CloseSide();
         }
     }
 }

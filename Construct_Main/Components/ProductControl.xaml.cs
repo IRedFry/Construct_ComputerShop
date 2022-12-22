@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Mapping;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BLL;
 
 namespace Construct_Main.Components
 {
@@ -20,9 +22,29 @@ namespace Construct_Main.Components
     /// </summary>
     public partial class ProductControl : UserControl
     {
+        public static readonly DependencyProperty CommandProperty =
+        DependencyProperty.Register(
+        "Command",
+        typeof(ICommand),
+        typeof(UserControl));
+
+        public ICommand Command
+        {
+            get
+            {
+                return (ICommand)GetValue(CommandProperty);
+            }
+
+            set
+            {
+                SetValue(CommandProperty, value);
+            }
+        }
+
         public ProductControl()
         {
             InitializeComponent();
+
         }
     }
 }

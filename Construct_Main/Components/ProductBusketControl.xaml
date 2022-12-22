@@ -4,40 +4,51 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Construct_Main.Components" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d">
+             mc:Ignorable="d" Name="ProductBusketControlModel">
     
     <Border CornerRadius="5" Background="White" BorderBrush="Gray" BorderThickness="1" Margin="10" Width="530">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="4*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <Image Height="60" Width="auto" Source="../Sources/lg1.png" HorizontalAlignment="Left" />
+            <Image Height="60" Width="auto" Source="{Binding CategoryImageSource}" HorizontalAlignment="Left" />
 
-
-            <TextBlock Height="auto" Width="auto" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" FontSize="25">
-                Монитор LG
-            </TextBlock>
+            <TextBlock x:Name="Id" Text="{Binding ProductId}" Visibility="Hidden"></TextBlock>
+            
+            <TextBlock Text="{Binding ProductName}" Height="auto" Width="auto" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Left" FontSize="25"/>
             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Width="30" Height="30" HorizontalAlignment="Left">
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.SubCountCommand}"
+                        Width="30" Height="30" HorizontalAlignment="Left" Cursor="Hand">
+                    <Button.CommandParameter>
+                        <Binding Path="Text" ElementName="Id"></Binding>
+                    </Button.CommandParameter>
                     <materialDesign:PackIcon Kind="Minus" Foreground="White"></materialDesign:PackIcon>
                 </Button>
-                <TextBlock VerticalAlignment="Center" FontSize="30" Margin="10"> 1 </TextBlock>
-                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Width="30" Height="30" HorizontalAlignment="Right">
+                <TextBlock Text="{Binding CountString}" VerticalAlignment="Center" FontSize="30" Margin="10"/>
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.AddCountCommand}"
+                        Width="30" Height="30" HorizontalAlignment="Right">
+                    <Button.CommandParameter>
+                        <Binding Path="Text" ElementName="Id"></Binding>
+                    </Button.CommandParameter>
                     <materialDesign:PackIcon Kind="Plus" Foreground="White"></materialDesign:PackIcon>
                 </Button>
             </StackPanel>
-            <TextBlock Height="auto" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right" FontSize="25" Cursor="Hand">
-                15.000 Р
-            </TextBlock>
+            <TextBlock Text="{Binding PriceString}" Height="auto" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center" TextAlignment="Right" FontSize="25" Cursor="Hand"/>
 
             <Button Grid.Column="4" Cursor="Hand" Width="30" Height="30" BorderBrush="Transparent"
-                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Background="LightGray">
-                <materialDesign:PackIcon Kind="Close" Foreground="Red"></materialDesign:PackIcon>
+                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Background="LightGray"
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.RemoveProductCommand}">
+                <Button.CommandParameter>
+                    <Binding Path="Text" ElementName="Id"></Binding>
+                </Button.CommandParameter>
+                    <materialDesign:PackIcon Kind="Close" Foreground="Red"></materialDesign:PackIcon>
             </Button>
         </Grid>
 

@@ -7,7 +7,7 @@
         xmlns:components="clr-namespace:Construct_Main.Components"
         xmlns:local="clr-namespace:Construct_Main"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow" Height="450" Width="850"
         WindowStyle="None"
         Background="Transparent"
         AllowsTransparency="True">
@@ -18,19 +18,22 @@
             </Border>
             <StackPanel Panel.ZIndex="1" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Height="auto" Grid.ColumnSpan="2">
                 
-                <Button Style="{DynamicResource MaterialDesignFlatAccentBgButton}" Height="auto" BorderThickness="0" Background="{StaticResource PrimaryHueLightBrush}">
+                <Button Style="{DynamicResource MaterialDesignFlatAccentBgButton}" Height="30" BorderThickness="0" Background="{StaticResource PrimaryHueLightBrush}">
                     <materialDesign:PackIcon Kind="ColorHelper" HorizontalAlignment="Center" Foreground="Black"/>
                 </Button>
-                <Button Style="{DynamicResource MaterialDesignFlatAccentBgButton}" Height="auto" BorderThickness="0" Background="{StaticResource PrimaryHueLightBrush}">
-                    <materialDesign:PackIcon Kind="VectorArrangeBelow" HorizontalAlignment="Center" Foreground="Black" />
+                <Button Style="{DynamicResource MaterialDesignFlatAccentBgButton}" Height="30" BorderThickness="0"
+                        Command="{Binding MaxMinCommand}"
+                        Background="{StaticResource PrimaryHueLightBrush}" Cursor="Hand">
+                    <materialDesign:PackIcon Kind="VectorArrangeBelow" HorizontalAlignment="Center" Foreground="Black"/>
                 </Button>
                 <Button x:Name="CloseButton" Style="{DynamicResource MaterialDesignFlatDarkBgButton}"
                         Background="Red" 
                         Grid.Column="2" Grid.Row="0"
-                        Height="auto" Width="auto"
+                        Height="30" Width="auto"
                         materialDesign:ButtonAssist.CornerRadius="0,20,0,0" 
                         BorderThickness="0"  
-                        Click="CloseButton_Click">
+                        Command="{Binding CloseCommand}"
+                        Cursor="Hand">
                     <materialDesign:PackIcon Kind="Close" Foreground="White"/>
                 </Button>
             </StackPanel>
@@ -41,7 +44,8 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Margin="20,35,0,0"
-                    Click="Button_Click" Cursor="Hand">
+                    Command="{Binding SideMenuCommand}"
+                    Cursor="Hand">
                 <materialDesign:PackIcon Kind="Menu" Foreground="White"></materialDesign:PackIcon>
             </Button>
             

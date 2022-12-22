@@ -1,0 +1,61 @@
+﻿<Page x:Class="Construct_Main.View.ReccomendationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Construct_Main.View" xmlns:components="clr-namespace:Construct_Main.Components"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ReccomendationPage">
+
+    <Page.Resources>
+        <local:MyConverter x:Key="MyConverter"></local:MyConverter>
+    </Page.Resources>
+
+    <Grid Background="{Binding Path=Background}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Button HorizontalAlignment="Left" Margin="100, 0, 0, 0"
+                    Command="{Binding ChangeReccomendationCommand}"
+                    CommandParameter="Popular"
+                    x:Name="PopularButton"
+                    Style="{DynamicResource MaterialDesignFlatDarkButton}" Cursor="Hand">
+                Популярные товары
+            </Button>
+
+            <Button HorizontalAlignment="Center" Margin="10"
+                    Command="{Binding ChangeReccomendationCommand}"
+                    CommandParameter="Category"
+                    x:Name="CategotyButton"
+                    Style="{DynamicResource MaterialDesignFlatDarkButton}">
+                Самая частая для вас категория
+            </Button>
+
+            <Button HorizontalAlignment="Right" Margin="10"
+                    Command="{Binding ChangeReccomendationCommand}"
+                    CommandParameter="Last"
+                    x:Name="LastButton"
+                    Style="{DynamicResource MaterialDesignFlatDarkButton}" Cursor="Hand">
+                Последние на складе
+            </Button>
+        </StackPanel>
+        <ScrollViewer  Grid.Row="1" Grid.Column="1">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                <ItemsControl x:Name="items" ItemsSource="{Binding Products}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <components:ProductControl Background="Transparent"></components:ProductControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+       
+    </Grid>
+</Page>

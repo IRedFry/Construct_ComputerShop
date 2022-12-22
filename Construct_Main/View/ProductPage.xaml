@@ -1,0 +1,121 @@
+﻿<Page x:Class="Construct_Main.View.ProductPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:Construct_Main.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="ProductPage">
+
+    <Page.Resources>
+        <local:BoolToVisibility x:Key="BoolToVisibility"></local:BoolToVisibility>
+        <local:NegateBoolToVisibility x:Key="NegateBoolToVisibility"></local:NegateBoolToVisibility>
+        <local:IntToBool x:Key="IntToBool"></local:IntToBool>
+    </Page.Resources>
+
+    <Grid Background="{Binding Path=Background}" Margin="70,30,0,0" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.ColumnSpan="2" Grid.Row="0" 
+                   Margin="00,0,0,0"
+                   FontSize="40"
+                   FontWeight="Bold"
+                   DataContext="{Binding productModel}" Text="{Binding Name}"></TextBlock>
+
+        <Button Grid.Column="1" Grid.Row="0"
+                Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                HorizontalAlignment="Right"
+                Margin="0,0,10,0"
+                Command="{Binding ToCatalogPageCommand}">
+            <materialDesign:PackIcon Kind="ArrowBackCircle" Width="20" Height="20" Foreground="White"></materialDesign:PackIcon>
+        </Button>
+
+        <Image Grid.Column="0" Grid.Row="1" Margin="0,20,0,0"  DataContext="{Binding productModel}" Source="{Binding CategoryImageSource}" HorizontalAlignment="Left" />
+
+        <Grid Grid.Row="1" Grid.Column="1" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" DataContext="{Binding productModel}" 
+                       Margin="10,10,0,0"
+                       FontSize="30"
+                       FontWeight="Bold"
+                       Text="{Binding PriceString}"></TextBlock>
+
+
+            <Button Grid.Row="0" Grid.Column="1" Name="addButton" Cursor="Hand" Width="40" Height="40"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Left"
+                    IsEnabled="{Binding Count, Converter={StaticResource IntToBool}}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                    DataContext="{Binding productModel}"
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.AddToBusketCommand}"
+                    CommandParameter="{Binding Id}"
+                    Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.IsInBusket, Converter={StaticResource NegateBoolToVisibility}}">
+
+                <materialDesign:PackIcon Kind="ShoppingBasket" Width="20" Height="20" Foreground="White"></materialDesign:PackIcon>
+            </Button>
+
+            <Button Grid.Row="0" Grid.Column="1" Name="removeButton" Cursor="Hand" Width="40" Height="40"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Left"
+                    IsEnabled="{Binding Count, Converter={StaticResource IntToBool}}"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                    Background="Red"
+                    DataContext="{Binding productModel}"
+                    Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.IsInBusket, Converter={StaticResource BoolToVisibility}}"
+                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.RemoveProductCommand}"
+                    CommandParameter="{Binding Id}">
+                <materialDesign:PackIcon Kind="ShoppingBasketMinus" Width="20" Height="20" Foreground="White"></materialDesign:PackIcon>
+            </Button>
+
+            <TextBlock Grid.Row="1" Grid.Column="0"
+                       Margin="10,20,0,0"
+                       FontSize="20"
+                       FontWeight="Bold">
+                Количество на складе:</TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="1" DataContext="{Binding productModel}" 
+                       Margin="10,20,0,0"
+                       FontSize="20"
+                       Text="{Binding Count}"></TextBlock>
+        </Grid>
+
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.ColumnSpan="2">
+            <TextBlock Margin="10,20,0,0"
+                       FontSize="20"
+                       FontWeight="Bold">
+                Описание</TextBlock>
+            <TextBlock DataContext="{Binding productModel}" 
+                       Margin="10"
+                       FontSize="20"
+                       Text="{Binding Description}"></TextBlock>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2">
+            <TextBlock Margin="10"
+                       FontSize="20">
+                Производитель: </TextBlock>
+            <TextBlock DataContext="{Binding productModel}" 
+                       Margin="10"
+                       FontSize="20"
+                       Text="{Binding ManufacturerName}"></TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

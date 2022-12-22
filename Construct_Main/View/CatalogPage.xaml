@@ -10,7 +10,10 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CatalogPage">
 
-
+    <Page.Resources>
+        <local:MyConverter x:Key="MyConverter"></local:MyConverter>
+    </Page.Resources>
+    
     <Grid Background="{Binding Path=Background}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -26,25 +29,28 @@
                 VerticalAlignment="Top"
                 Width="auto"
                 MinWidth="350">
-                <TextBox Margin="20,0,45,10" FontSize="22" TextAlignment="Left" VerticalAlignment="Bottom"/>
+                <TextBox x:Name="SearchBox" TextChanged="SearchBox_TextChanged" Margin="20,0,45,10" FontSize="22" TextAlignment="Left" VerticalAlignment="Bottom"/>
                 <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                            Command ="Search"
                             HorizontalAlignment="Right"
                             Background="#06283D"
                             BorderBrush="Transparent"
                             Margin="0,0,10,0"
                             Width="30"
-                            Height="30">
+                            Height="30" Cursor="Hand">
                     <materialDesign:PackIcon Kind="Search" Foreground="White"/>
                 </Button>
             </Grid>
         </Border>
         <ScrollViewer  Grid.Row="1" Grid.Column="1">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <components:ProductControl Background="Transparent"></components:ProductControl>
-                <components:ProductControl Background="Transparent"></components:ProductControl>
-                <components:ProductControl Background="Transparent"></components:ProductControl>
-                <components:ProductControl Background="Transparent"></components:ProductControl>
-                <components:ProductControl Background="Transparent"></components:ProductControl>
+                <ItemsControl x:Name="items" ItemsSource="{Binding Products}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <components:ProductControl Background="Transparent" Command="{Binding AddToBusketCommand}"></components:ProductControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </ScrollViewer>
 
@@ -54,17 +60,32 @@
                     <TextBlock Margin="10"> Цена </TextBlock>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock VerticalAlignment="Center" Margin="5"> От </TextBlock>
-                        <components:NumberBox Margin="5,10,10,10" Width="60" HorizontalAlignment="Left"/>
+                        <components:NumberBox x:Name="LowerPrice" Margin="5,10,10,10" Width="60" HorizontalAlignment="Left"/>
                         <TextBlock VerticalAlignment="Center"> До </TextBlock>
-                        <components:NumberBox Margin="5,10,10,10" Width="60" HorizontalAlignment="Right"/>
+                        <components:NumberBox x:Name ="TopPrice" Margin="5,10,10,10" Width="60" HorizontalAlignment="Right"/>
                     </StackPanel>
                     <TextBlock Margin="10"> Категория </TextBlock>
-                    <ComboBox Margin="10"/>
+                    <ComboBox x:Name="CaterogyComboBox" Margin="10" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="Id"/>
                     <TextBlock Margin="10"> Скидка </TextBlock>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Margin="10"> Есть </CheckBox>
-                        <CheckBox Margin="10"> Нет </CheckBox>
+                        <CheckBox x:Name="HasSale" Margin="10"> Есть </CheckBox>
+                        <CheckBox x:Name="NoSale" Margin="10"> Нет </CheckBox>
                     </StackPanel>
+                    <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}" 
+                            Margin="20" 
+                            Command="{Binding ApplyFilterCommand}" 
+                            Cursor="Hand">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource MyConverter}">
+                                <Binding Path="Number" ElementName="LowerPrice"/>
+                                <Binding Path="Number" ElementName="TopPrice"/>
+                                <Binding Path="SelectedValue" ElementName="CaterogyComboBox"/>
+                                <Binding Path="IsChecked" ElementName="HasSale"/>
+                                <Binding Path="IsChecked" ElementName="NoSale"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                        Применить
+                    </Button>
                 </StackPanel>
             </Border>
         </ScrollViewer>

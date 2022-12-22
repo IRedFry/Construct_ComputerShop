@@ -4,47 +4,102 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Construct_Main.Components" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:view="clr-namespace:Construct_Main.View"
              mc:Ignorable="d">
 
-    <Border x:Name="OrderBorder" CornerRadius="5" Background="White" BorderBrush="Gray" BorderThickness="1" Margin="10" Width="530">
+
+
+    <Border x:Name="OrderBorder" CornerRadius="5" Background="White" BorderBrush="Gray" BorderThickness="1" Margin="10" Width="630">
         <Grid x:Name="OrderWrapper">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"></ColumnDefinition>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="1.5*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
+            
+            <TextBlock x:Name="Id" Text="{Binding Id}" Visibility="Hidden"></TextBlock>
+            
             <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Height="74">
-                <Image Height="60" Width="auto" Source="../Sources/lg1.png" HorizontalAlignment="Left" />
-                <Image Height="60" Width="auto" Source="../Sources/lg1.png" HorizontalAlignment="Left" />
+                <ItemsControl ItemsSource="{Binding Products}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Image Height="50" Margin="10" Source="{Binding CategoryImageSource}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
+            
             <Border Grid.Column="1" Grid.Row="0" BorderBrush="Gray" BorderThickness="1,0,0,0" Margin="0,3,0,0">
                 <StackPanel Orientation="Vertical" >
-                <TextBlock Height="auto"  HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Right" FontSize="20">
-                    Итого: 15.000 Р
-                </TextBlock>
-                <TextBlock Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Right" FontSize="20">
-                    Товаров: 2шт.
-                </TextBlock>
-                 <TextBlock Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Right" FontSize="20">
-                    Статус: выполнен
-                 </TextBlock>
+                    <TextBlock Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Right" FontSize="20" Text="{Binding TotalCost, ValidatesOnExceptions=True, StringFormat={}{0} руб.}"/>
+                    <TextBlock Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Right" FontSize="20" Text="{Binding TotalCount}">
+                    </TextBlock>
+                    <TextBlock Height="auto" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Right" FontSize="20" Text="{Binding StatusName}"/>
                 </StackPanel>
             </Border>
-            
-            <Border Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1,0,0" Margin="3"></Border>
+            <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center">
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="10" Visibility="{Binding OrderedVisibility}" Background="Orange" Cursor="Hand">
+                    <materialDesign:PackIcon Kind="Clock" Foreground="White"></materialDesign:PackIcon>
+                </Button>
+
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.TakeOrderCommand}"
+                        Margin="10" Visibility="{Binding VerifiedVisibility}" Background="Orange" Cursor="Hand">
+                    <Button.CommandParameter>
+                        <Binding Path="Text" ElementName="Id"></Binding>
+                    </Button.CommandParameter>
+                    <materialDesign:PackIcon Kind="ShopAlert"  Foreground="White"></materialDesign:PackIcon>
+                </Button>
+
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="10" Visibility="{Binding CompleteVisibility}" Background="Green" Cursor="Hand">
+                    <materialDesign:PackIcon Kind="ShopComplete" Foreground="White"></materialDesign:PackIcon>
+                </Button>
+
+                <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
+                        Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.CancelOrderCommand}"
+                        Margin="10" Visibility="{Binding CancelVisibility}" Background="Red" Cursor="Hand">
+                    <materialDesign:PackIcon  Kind="Cancel" Foreground="White"></materialDesign:PackIcon>
+                    <Button.CommandParameter>
+                        <Binding Path="Text" ElementName="Id"></Binding>
+                    </Button.CommandParameter>
+                </Button>
+            </StackPanel>
+            <Border Grid.ColumnSpan="3" Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1,0,0" Margin="3"></Border>
 
             <Button Click="Button_Click" Grid.Column="0" Grid.Row="1" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" Margin="10" Width="30" Height="30" HorizontalAlignment="Left" Cursor="Hand" VerticalAlignment="Top">
                 <materialDesign:PackIcon x:Name="Arrow" Kind="ArrowDown" Foreground="White"></materialDesign:PackIcon>
             </Button>
 
-            <ListBox x:Name="OrderBody" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,50,0,0" Height="0">
-                <local:ProductControl/>
-                <local:ProductControl/>
-            </ListBox>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top" x:Name="OrderBody" Grid.ColumnSpan="2" Grid.Row="1" Margin="0,50,0,0" Height="0">
+                <ItemsControl x:Name="items" ItemsSource="{Binding Products}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Image Grid.Column="0" Height="50" Margin="10" Width="auto" Source="{Binding CategoryImageSource}" HorizontalAlignment="Left" />
+                                <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="20" FontWeight="Bold" Margin="20"></TextBlock>
+                                <TextBlock Grid.Column="2" Text="{Binding CountInOrder}" FontSize="20" Margin="20"></TextBlock>
+                                <TextBlock Grid.Column="2" Text="шт." HorizontalAlignment="Right" FontSize="20" Margin="20"></TextBlock>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
         </Grid>
         
     </Border>

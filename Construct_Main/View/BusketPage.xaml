@@ -23,8 +23,13 @@
         </TextBlock>
         <ScrollViewer  Grid.Column="0" Grid.Row="1">
             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-                <components:ProductBusketControl Background="Transparent"></components:ProductBusketControl>
-                <components:ProductBusketControl Background="Transparent"></components:ProductBusketControl>
+                <ItemsControl ItemsSource="{Binding BusketLines}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <components:ProductBusketControl Background="Transparent"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </ScrollViewer>
 
@@ -32,11 +37,14 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Top">
                 <TextBlock HorizontalAlignment="Center" FontSize="25"> Заказ </TextBlock>
                 <TextBlock HorizontalAlignment="Left" FontSize="15" Margin="10"> Итого</TextBlock>
+                <TextBlock HorizontalAlignment="Left" FontSize="20" Margin="10" FontWeight="Bold" Text="{Binding PriceText}"></TextBlock>
                 <StackPanel Orientation="Horizontal" Height="auto">
-                    <TextBlock HorizontalAlignment="Left" FontSize="15" Margin="10"> 2 товара</TextBlock>
-                    <TextBlock HorizontalAlignment="Right" FontSize="15" Margin="10"> 30.000 Р</TextBlock>
+                    <TextBlock HorizontalAlignment="Left" FontSize="15" Margin="10"></TextBlock>
+                    <TextBlock HorizontalAlignment="Right" FontSize="15" Margin="10"></TextBlock>
                 </StackPanel>
-                <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}" Margin="10" VerticalAlignment="Bottom" materialDesign:ButtonAssist.CornerRadius="5">
+                <Button Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                        Command="{Binding MakeOrderCommand}"
+                        Margin="10" VerticalAlignment="Bottom" materialDesign:ButtonAssist.CornerRadius="5" Cursor="Hand">
                     Заказать
                 </Button>
             </StackPanel>
